@@ -1,0 +1,9 @@
+Qs 8) Write a query to display the number of accounts opened in each city .The Query should display 
+Branch City and number of accounts as No_of_Accounts.For the branch city where we don’t have any 
+accounts opened display 0. Display the records in sorted order based on branch city.
+
+
+SELECT branch_city, count(account_master.account_number) No_of_Accounts 
+FROM branch_master LEFT JOIN account_master
+ON ACCOUNT_MASTER. branch_id = branch_master.branch_id
+GROUP BY branch_master.branch_city ORDER BY branch_city;
