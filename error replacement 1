@@ -1,0 +1,40 @@
+1.)Write a query to show the branch name,branch city where we have the maximum customers. For 
+example the branch B00019 has 3 customers, B00020 has 7 and B00021 has 10. So branch id B00021 is 
+having maximum customers. If B00021 is Koramangla branch Bangalore, Koramangla branch should 
+be displayed along with city name Bangalore. In case of multiple records, display the records sorted in 
+ascending order based on branch name.
+
+
+SELECT b.branch_name,b.branch_city FROM
+Branch_master b JOIN account_master a ON a.branch_id=b.branch_id
+GROUP BY a.branch_id HAVING count(a.customer_number)>=ALL
+(SELECT count(customer_number) FROM 
+Account_master GROUP BY branch_id)
+ORDER BY b.branch_name;
+
+2.) Display the customer number, customer's first name, account number and number of transactions 
+being made by the customers from each account. Give the alias name for number of transactions as 
+Count_Trans. Display the records sorted in ascending order based on customer number and then by 
+account number.
+
+
+SELECT c.customer_number,c.firstname,t.account_number, count(t.account_number) Count_Trans 
+FROM transaction_details t JOIN account_master a ON a.account_number=t.account_number
+JOIN customer_master c ON c.customer_number=a.customer_number
+GROUP BY t.account_number ORDER BY c.customer_number, a.account_number;
+
+
+3.) Write a query to display the customer number, firstname, lastname for those client where total 
+loan amount taken is maximum and at least taken from 2 branches. For example the customer C00012 
+took a loan of 100000 from bank branch with id B00009 and C00012 Took a loan of 500000 from bank 
+branch with id B00010. So total loan amount for customer C00012 is 600000. C00013 took a loan of 
+100000 from bank branch B00009 and 200000 from bank branch B00011. So total loan taken is 
+300000. So loan taken by C00012 is more then C00013.
+
+
+SELECT ld.customer_number, firstname, lastname
+FROM customer_master cm JOIN loan_details ld
+ON cm.customer_number=ld.customer_number
+GROUP BY customer_number
+HAVING count(branch_id)>=2 AND sum(loan_amount)>=
+ALL(SELECT sum(loan_amount) FROM loan_details GROUP BY customer_number);
