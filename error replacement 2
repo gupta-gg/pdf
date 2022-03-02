@@ -1,0 +1,17 @@
+4.)Write a query to display customer id and total rent paid by the customers who are issued 
+with the videos. Need not display the customers who has not taken / issued with any videos. 
+Hint: Alias Name for total rent paid is TOTAL_COST. Display the records sorted in ascending 
+order based on customer id.
+
+
+SELECT cid.customer_id, sum(mm.rent_cost) TOTAL_COST FROM customer_issue_details cid 
+JOIN movies_master mm ON cid.movie_id=mm.movie_id GROUP BY cid.customer_id order by 
+customer_id;
+
+
+5.)Write a query to display the number of men & women Employees. The query should display the 
+gender and number of Employees as No_of_Employees. Display the records sorted in ascending order 
+based on gender.
+
+SELECT gender,count(employee_id) No_of_Employees FROM employee_master
+GROUP BY gender ORDER BY gender;
