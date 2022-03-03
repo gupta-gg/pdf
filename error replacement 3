@@ -1,0 +1,18 @@
+9.)Write a query to display customer id, customer name, card id, card description and card 
+amount in dollars of customers who have taken movie on the same day the library card is 
+registered. For Example Assume John registered a library card on 12th Jan 2013 and he took a 
+movie on 12th Jan 2013 then display his details. AMOUNT_DOLLAR = amount/52.42 and 
+round it to zero decimal places and display as $Amount. Example Assume 500 is the amount 
+then dollar value will be $10. Hint: Use AMOUNT_DOLLAR as alias name for amount in dollar. 
+Display the records in ascending order based on customer name.
+
+
+
+SELECT c.CUSTOMER_ID,c.CUSTOMER_NAME,l.card_id,l.DESCRIPTION,
+concat('$',round(amount/52.42)) AMOUNT_DOLLAR FROM
+customer_master c JOIN customer_issue_details ci ON c.customer_id=ci.customer_id
+JOIN customer_card_details cc ON cc.customer_id=c.customer_id
+JOIN library_card_master l ON cc.card_id=l.card_id
+WHERE cc.issue_date=ci.issue_date
+ORDER BY customer_name;
+
